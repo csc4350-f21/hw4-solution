@@ -39,6 +39,21 @@ class MathOperation:
         self.add_it()
 
 def complicated_math_operation(starting_value, min_value, max_value, coefficient):
+    # Design decision: mutated starting_value under the hood in MathOperation. 
+
+    # Possible justification: it cleans up the callsites a bit, so it's easier to chain
+    # operations. Another possible reason is that it could conceivably let MathOperation
+    # act as more of a black box in case we want to maintain some state in that class
+    # and restrict the caller's ability to mutate `val`.
+
+    # Possible counter-justifications: Maybe we want the caller to have more access
+    # to `val` depending on how we're going to use MathOperation. Maybe we want to use
+    # the MathOperation class to operate on multiple input values or branch which operation
+    # we do based on some conditional logic. In either case, hiding `val` from the caller
+    # slows us down a little bit.
+    
+    # Any minimal justification is an acceptable answer here.
+
     CMO = MathOperation(starting_value, min_value, max_value, coefficient)
     CMO.multiply_it()
     CMO.add_it()
